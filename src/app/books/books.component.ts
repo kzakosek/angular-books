@@ -14,7 +14,7 @@ export interface  Book {
   selector: 'app-books',
   templateUrl: './books.component.html',
   styleUrls: ['./books.component.css'],
-  animations: [
+  animations: [ //animations for expanding description/row
     trigger('descriptionExpand', [
       state('collapsed', style({ height: '0px', minHeight: '0' })),
       state('expanded', style({ height: '*' })),
@@ -27,10 +27,6 @@ export class BooksComponent implements OnInit {
   books: Book[] = [];
   columnsToDisplay = ['title', 'publisher', 'pageCount'];
 
-  toggleRow(element: { expanded: boolean; }) {
-    element.expanded = !element.expanded
-  }
-
   constructor(
     private httpClient: HttpClient
     
@@ -40,6 +36,7 @@ export class BooksComponent implements OnInit {
     this.getBooks();
   }
 
+  //fetch books data from api and push to array
   getBooks(){
     const API = 'https://www.googleapis.com/books/v1/volumes?q=angular &maxResults=25';
     this.httpClient.get<any>(API).subscribe(
@@ -53,5 +50,10 @@ export class BooksComponent implements OnInit {
         //console.log(this.books);
       }
     )
+  }
+
+  //when clicked on row
+  toggleRow(element: { expanded: boolean; }) {
+    element.expanded = !element.expanded
   }
 }
